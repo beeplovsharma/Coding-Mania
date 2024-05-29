@@ -21,9 +21,11 @@ public:
     }
     ListNode* middleNode(ListNode* head) {
         int n = countLL(head);
-        int mid = n/2;
+        int mid = n/2+1;
         ListNode *temp = head;
-        for(int i=0;i<mid;i++){
+        while(temp!=NULL){
+            mid--;
+            if(mid==0) break;
             temp = temp->next;
         }
         return temp;
