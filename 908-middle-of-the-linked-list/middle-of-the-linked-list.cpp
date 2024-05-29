@@ -10,24 +10,15 @@
  */
 class Solution {
 public:
-    int countLL(ListNode *head){
-        ListNode *temp = head;
-        int cnt = 0;
-        while(temp!=NULL){
-            temp = temp->next;
-            cnt++;
-        }
-        return cnt;
-    }
+    // Slow & Fast Pointer
     ListNode* middleNode(ListNode* head) {
-        int n = countLL(head);
-        int mid = n/2+1;
-        ListNode *temp = head;
-        while(temp!=NULL){
-            mid--;
-            if(mid==0) break;
-            temp = temp->next;
+        if(head == NULL) return head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        return temp;
+        return slow;
     }
 };
