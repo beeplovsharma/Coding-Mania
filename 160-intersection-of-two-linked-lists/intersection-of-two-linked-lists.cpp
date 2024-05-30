@@ -8,22 +8,26 @@
  */
 class Solution {
 public:
+    int countLL(ListNode *head){
+        ListNode *temp;
+        int cnt =0;
+        while(temp!=NULL){
+            cnt++;
+            temp = temp -> next;
+        }
+        return cnt;
+    }
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        unordered_map<ListNode*,int>hash;
-        ListNode *temp1 = headA;
-        while(temp1!=NULL){
-            hash[temp1]=temp1->val;
-            temp1 = temp1->next;
-        }
+        ListNode *t1 = headA;
+        ListNode *t2 = headB;
+        while(t1!=t2){
+            if(t1) t1 = t1 -> next;
+            else t1 = headA;
 
-        ListNode* temp2 = headB;
-        
-        while(temp2!=NULL){
-            if(hash.find(temp2)!=hash.end()){
-                return temp2;
-            }
-            temp2 = temp2 -> next;
+            if(t2) t2 = t2 -> next;
+            else t2 = headB;
         }
+        if(t1==t2) return t1;
         return NULL;
     }
 };
