@@ -19,7 +19,7 @@ public:
             temp = temp -> next;
         }
         int i = 0, j = v.size() - 1;
-        while(i<j){
+        while(i<=j){
             if(v[i]==v[j]){
                 i++;
                 j--;
