@@ -4,7 +4,7 @@ public:
     bool judgeSquareSum(int c) {
         for(ll a=0;a*a<=c;a++){
             ll b = sqrt(c-a*a);
-            if( b == sqrt(c-a*a)) return true;
+            if( a*a + b*b == c) return true;
         }
         return false;
 
