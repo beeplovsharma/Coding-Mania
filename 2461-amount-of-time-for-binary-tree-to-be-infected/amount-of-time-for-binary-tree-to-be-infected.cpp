@@ -16,16 +16,19 @@ public:
         q.push(root);
         TreeNode* sNode;
         while(!q.empty()){
-            TreeNode* node = q.front();
-            if(node->val == start) sNode = node;
-            q.pop();
-            if(node->left) {
-                parent_track[node->left] = node;
-                q.push(node->left);
-            }
-            if(node->right){
-                parent_track[node->right] = node;
-                q.push(node->right);
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                TreeNode* node = q.front();
+                if(node->val == start) sNode = node;
+                q.pop();
+                if(node->left) {
+                    parent_track[node->left] = node;
+                    q.push(node->left);
+                }
+                if(node->right){
+                    parent_track[node->right] = node;
+                    q.push(node->right);
+                }
             }
         }
         return sNode;
