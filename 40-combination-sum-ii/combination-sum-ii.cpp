@@ -8,10 +8,11 @@ public:
         
         for(int i=ind;i<arr.size();i++){
             if(i>ind && arr[i]==arr[i-1]) continue;
-            if(target < 0) break;
+            if(target >= 0){
             ds.push_back(arr[i]);
             PSS(arr,ds,ans,i+1,target-arr[i]);
             ds.pop_back();
+            }
         }
     }
 public:
