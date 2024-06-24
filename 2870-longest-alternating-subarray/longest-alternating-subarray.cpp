@@ -11,13 +11,13 @@ public:
                 next += add;
                 if(next==nums[j]){
                     curLen++;
+                    add = add * (-1);
                 }
                 else{
                     break;
                 }
-                add = add * (-1);
             }
-            ans = max(ans,curLen);
+            ans = max(ans,curLen);  
         }
         return ans==1 ? -1 : ans;
     }
