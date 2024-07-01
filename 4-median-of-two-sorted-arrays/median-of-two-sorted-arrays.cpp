@@ -6,24 +6,16 @@ public:
         if (n1 > n2)
             return findMedianSortedArrays(b, a);
 
-        int n = n1 + n2;              // total length
-        int left = (n1 + n2 + 1) / 2; // length of left half
-        // apply binary search:
+        int n = n1 + n2;
+        int left = (n1 + n2 + 1) / 2; 
         int low = 0, high = n1;
         while (low <= high) {
             int mid1 = (low + high) >> 1;
             int mid2 = left - mid1;
-            // calculate l1, l2, r1 and r2;
-            int l1 = INT_MIN, l2 = INT_MIN;
-            int r1 = INT_MAX, r2 = INT_MAX;
-            if (mid1 < n1)
-                r1 = a[mid1];
-            if (mid2 < n2)
-                r2 = b[mid2];
-            if (mid1 - 1 >= 0)
-                l1 = a[mid1 - 1];
-            if (mid2 - 1 >= 0)
-                l2 = b[mid2 - 1];
+            int l1 = (mid1 == 0) ? INT_MIN : a[mid1 - 1];
+            int l2 = (mid2 == 0) ? INT_MIN : b[mid2 - 1];
+            int r1 = (mid1 == n1) ? INT_MAX : a[mid1];
+            int r2 = (mid2 == n2) ? INT_MAX : b[mid2];
 
             if (l1 <= r2 && l2 <= r1) {
                 if (n % 2 == 1)
