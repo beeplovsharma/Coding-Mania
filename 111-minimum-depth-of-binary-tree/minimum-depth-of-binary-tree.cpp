@@ -11,24 +11,23 @@
  */
 class Solution {
 public:
+    bool isLeaf(TreeNode *root){
+        return (!root->left && !root->right);
+    }
     int minDepth(TreeNode* root) {
             if(root==NULL) return 0;
-            queue<TreeNode*>q;
-            q.push(root);
-            int level = 0;
+            queue<pair<TreeNode*,int>>q;
+            q.push({root,1});
             while(!q.empty()){
-                int size = q.size();
-                bool isInvalid = false;
-                for(int i=0;i<size;i++){
-                    TreeNode *node = q.front();
-                    q.pop();
-                    if(node->left) q.push(node->left);
-                    if(node->right) q.push(node->right);
-                    if(node->left==NULL && node->right==NULL) isInvalid = true;
-                }
-                level++;
-                if(isInvalid) break;
+                auto p = q.front();
+                q.pop();
+                TreeNode* node = p.first;
+                int level = p.second;
+
+                if(isLeaf(node)) return level;
+                if(node->left) q.push({node->left,level+1});
+                if(node->right) q.push({node->right,level+1});
             }
-            return level;
+            return 0;
     }
 };
