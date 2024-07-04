@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void makePrev(vector<int>& heights,vector<int>& prev){
+    void findPrevSmaller(vector<int>& heights,vector<int>& prev){
         stack<int>st;
         int n = heights.size();
         for(int i=0;i<n;i++){
@@ -14,7 +14,7 @@ public:
             st.push(i);
         }
     }
-    void makeNext(vector<int>& heights,vector<int>& next){
+    void findNextSmaller(vector<int>& heights,vector<int>& next){
         stack<int>st;
         int n = heights.size();
         for(int i=n-1;i>=0;i--){
@@ -33,8 +33,8 @@ public:
         vector<int>prev(n,-1);
         vector<int>next(n,-1);
 
-        makePrev(heights,prev);
-        makeNext(heights,next);
+        findPrevSmaller(heights,prev);
+        findNextSmaller(heights,next);
 
         int maxHt = INT_MIN;
         for(int i=0;i<n;i++){
