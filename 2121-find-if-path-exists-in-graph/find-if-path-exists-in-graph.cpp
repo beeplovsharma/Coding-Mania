@@ -20,6 +20,8 @@ public:
             int node = q.front();
             q.pop();
 
+            if(vis[destination]==true) return true;
+
             for (auto x : adj[node]) {
 
                 if (!vis[x]) {
@@ -28,6 +30,6 @@ public:
                 }
             }
         }
-        return vis[destination];
+        return false;
     }
 };
