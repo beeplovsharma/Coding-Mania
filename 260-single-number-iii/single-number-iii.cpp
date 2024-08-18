@@ -1,14 +1,21 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        map<int,int>mp;
-        for(auto x:nums){
-            mp[x]++;
+        long xorr = 0;
+        int n = nums.size();
+        for(int i=0;i<n;i++){
+            xorr = xorr ^ nums[i];
         }
-        vector<int>ans;
-        for(auto x:mp){
-            if(x.second == 1) ans.push_back(x.first); 
+
+        int rightmost_set = (xorr & (xorr-1))^xorr;
+
+        int b1=0,b2=0;
+
+        for(int i=0;i<n;i++){
+            if(nums[i] & rightmost_set) b1 = b1^nums[i];
+            else b2 = b2 ^ nums[i];
         }
-        return ans;
+
+        return {b1,b2};
     }
 };
