@@ -1,14 +1,12 @@
 class Solution {
 public:
+// Optimised
     int singleNumber(vector<int>& nums) {
-        map<int,int>mp;
-        for(auto x:nums){
-            mp[x]++;
+        sort(nums.begin(),nums.end());
+        int n = nums.size();
+        for(int i=1;i<n;i=i+3){
+            if(nums[i]!=nums[i-1]) return nums[i-1];
         }
-
-        for(auto x:mp){
-            if(x.second==1) return x.first;
-        }
-        return -1;
+        return nums[n-1];
     }
 };
