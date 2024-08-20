@@ -3,29 +3,32 @@ public:
     stack<int>st1,st2;
     
     void push(int x) {
+        if(st1.empty()){
+            st1.push(x);
+            return;
+        }
+
+        while(!st1.empty()){
+            st2.push(st1.top());
+            st1.pop();
+        }
+
         st1.push(x);
+        
+        while(!st2.empty()){
+            st1.push(st2.top());
+            st2.pop();
+        }
     }
     
     int pop() {
-        if(st2.empty()){
-            while(!st1.empty()){
-                st2.push(st1.top());
-                st1.pop();
-            }
-        }
-        int el = st2.top();
-        st2.pop();
+        int el = st1.top();
+        st1.pop();
         return el;
     }
     
     int peek() {
-        if(st2.empty()){
-            while(!st1.empty()){
-                st2.push(st1.top());
-                st1.pop();
-            }
-        }
-        return st2.top();
+        return st1.top();
     }
     
     bool empty() {
