@@ -1,43 +1,31 @@
 class Solution {
 public:
-    int t[1001][1001];
-    
-    bool solve(string &s, int l, int r){
-        if(l >= r) 
-            return 1;
+    bool checkPalindrome(string &s,int i,int j,vector<vector<int>>&dp){
+        if(i>=j) return 1;
 
-        if(t[l][r] != -1){
-            return t[l][r];
-        }
+        if(dp[i][j]!=-1) return dp[i][j];
 
-        if(s[l] == s[r]) {
-            return t[l][r] = solve(s, l+1, r-1);
-        }
-
-        return t[l][r] = false;
-    }
-    
-    string longestPalindrome(string s) {
-        int n = s.length();
+        if(s[i]==s[j]) return dp[i][j] = checkPalindrome(s,i+1,j-1,dp);
         
-        int maxlen = INT_MIN;
-        int startingIndex = 0;
-
-        memset(t, -1, sizeof(t));
-
-        for(int i = 0; i < n; i++){
-            for(int j = i; j < n; j++){
-                
-                if(solve(s, i, j)) {
-                    if(j-i+1 > maxlen){
-                        startingIndex = i;
-                        maxlen = j-i+1;
+        return dp[i][j] = 0;
+    }
+    string longestPalindrome(string s) {
+        int n = s.size();
+        int maxLen = INT_MIN;
+        int sp=0;
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                if(checkPalindrome(s,i,j,dp)){
+                    int len = (j-i+1);
+                    if(len > maxLen){
+                        maxLen = len;
+                        sp = i;
                     }
                 }
-                
             }
         }
 
-        return s.substr(startingIndex, maxlen);
+        return s.substr(sp,maxLen);
     }
 };
