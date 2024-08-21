@@ -1,36 +1,25 @@
 class Solution {
 public:
-    int calcSum(vector<int>& nums,int start,int end){
-        int sum = 0;
-        for(int i=start;i<=end;i++){
-            sum+=nums[i];
-        }
-        return sum;
-    }
+#define ll long long
     vector<int> getAverages(vector<int>& nums, int k) {
         int n = nums.size();
-    vector<int> ans(n, -1); // Initialize result with -1
-    
-    if (n < 2 * k + 1) {
-        return ans; // Not enough elements to calculate any average
-    }
-    
-    long long windowSum = 0;
-    int windowSize = 2 * k + 1;
-    
-    // Calculate initial window sum
-    for (int i = 0; i < windowSize; ++i) {
-        windowSum += nums[i];
-    }
-    
-    // Calculate averages using sliding window
-    for (int i = k; i < n - k; ++i) {
-        ans[i] = windowSum / windowSize;
-        if (i + k + 1 < n) {
-            windowSum += nums[i + k + 1] - nums[i - k];
+        vector<int>ans(n,-1);
+        if(n < 2*k+1) return ans;
+
+        vector<ll>prefix;
+        ll pre_sum = 0;
+        for(int i=0;i<nums.size();i++){
+            pre_sum += nums[i];
+            prefix.push_back(pre_sum);
         }
-    }
-    
-    return ans;
+
+        for(int i=k;i<n-k;i++){
+            ll sum = prefix[i+k];
+            if(i-k > 0){
+                sum -= prefix[i-k-1];
+            }
+            ans[i] = (int)(sum/(2*k+1));
+        }
+        return ans;
     }
 };
