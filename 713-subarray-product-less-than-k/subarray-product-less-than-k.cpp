@@ -1,7 +1,8 @@
 class Solution {
+#define ll long long
 public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        if(k<=1) return 0;
+        // if(k<=1) return 0;
         
         int p = 1;
         int i = 0, j = 0;
@@ -11,7 +12,7 @@ public:
         while(j<n){
             p = p * nums[j];
 
-            while(p>=k){
+            while(p>=k && i<=j){
                 p = p/nums[i];
                 i++;
             }
