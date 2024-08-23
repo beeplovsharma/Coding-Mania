@@ -1,17 +1,17 @@
+#include<bits/stdc++.h>
 class Solution {
 public:
     int lengthOfLIS(vector<int>& arr) {
+        vector<int>temp;
         int n = arr.size();
-        vector<int>dp(n,1);
-        int maxi = 0;
-        for(int ind=0;ind<n;ind++){
-            for(int prev=0;prev<ind;prev++){
-                if(arr[prev] < arr[ind]){
-                    dp[ind] = max(dp[ind],1+dp[prev]);
-                }
+        temp.push_back(arr[0]);
+        for(int i=1;i<n;i++){
+            if(arr[i]>temp.back()) temp.push_back(arr[i]);
+            else {
+                int ind = lower_bound(temp.begin(),temp.end(),arr[i])-temp.begin();
+                temp[ind] = arr[i];
             }
-            maxi = max(maxi,dp[ind]);
         }
-        return maxi;
+        return temp.size();
     }
 };
