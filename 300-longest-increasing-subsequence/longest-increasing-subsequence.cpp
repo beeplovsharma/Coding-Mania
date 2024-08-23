@@ -15,6 +15,6 @@ public:
             next = cur;
         }
 
-        return next[-1+1];
+        return cur[-1+1];
     }
 };
