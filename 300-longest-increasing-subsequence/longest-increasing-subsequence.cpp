@@ -2,19 +2,16 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& arr) {
         int n = arr.size();
-        vector<int>next(n+1,0),cur(n+1,0);
-        for(int ind=n-1;ind>=0;ind--){
-            for(int prev_ind=ind-1;prev_ind>=-1;prev_ind--){
-                int notPick = 0 + next[prev_ind+1]; //must do index shifting of prev_ind
-                int pick = 0;
-                if(prev_ind == -1 || arr[ind]>arr[prev_ind]) 
-                    pick = 1 + next[ind+1]; //must do index shifting of prev_ind
-                
-                cur[prev_ind+1] = max(pick,notPick);
+        vector<int>dp(n,1);
+        int maxi = 0;
+        for(int ind=0;ind<n;ind++){
+            for(int prev=0;prev<ind;prev++){
+                if(arr[prev] < arr[ind]){
+                    dp[ind] = max(dp[ind],1+dp[prev]);
+                }
             }
-            next = cur;
+            maxi = max(maxi,dp[ind]);
         }
-
-        return cur[-1+1];
+        return maxi;
     }
 };
