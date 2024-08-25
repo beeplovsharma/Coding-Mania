@@ -15,29 +15,28 @@ public:
         vector<vector<int>>ans;
         if(root==NULL) return ans;
 
-        queue<pair<TreeNode*,pair<int,int>>>q;
+        queue<pair<TreeNode*,pair<int,int>>>q; // <Node,<Vertical,Level>>
         q.push({root,{0,0}});
 
-        map<int,map<int,multiset<int>>>nodes;
-
+        map<int,map<int,multiset<int>>>mp; // <Vertical,<Level,Node->Val>>
         while(!q.empty()){
             auto temp = q.front();
             q.pop();
             TreeNode* node = temp.first;
             int v = temp.second.first;
             int l = temp.second.second;
-            nodes[v][l].insert(node->val);
+            mp[v][l].insert(node->val);
 
             if(node->left) q.push({node->left,{v-1,l+1}});
             if(node->right) q.push({node->right,{v+1,l+1}});
         }
 
-        for(auto a:nodes){
-            vector<int>temp;
-            for(auto b:a.second){
-                temp.insert(temp.end(),b.second.begin(),b.second.end());
+        for(auto p:mp){
+            vector<int>col;
+            for(auto q:p.second){
+                col.insert(col.end(),q.second.begin(),q.second.end());
             }
-            ans.push_back(temp);
+            ans.push_back(col);
         }
         return ans;
     }
