@@ -1,52 +1,36 @@
 class Solution {
 public:
-    void BFS(unordered_map<int,vector<int>>&adj,vector<bool>&visited){
+    void BFS(unordered_map<int,vector<int>>&adj,int u,vector<bool>&visited){
         queue<int>q;
-        q.push(0);
-        visited[0] = true;
+        q.push(u);
+        visited[u] = true;
 
         while(!q.empty()){
             int u = q.front();
             q.pop();
-            
-            for(auto x:adj[u]){
-                if(!visited[x]){
-                    visited[x] = true;
-                    q.push(x);
+
+            for(auto &v:adj[u]){
+                if(!visited[v]){
+                    q.push(v);
+                    visited[v]=true;
                 }
             }
         }
     }
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
         unordered_map<int,vector<int>>adj;
+        for(auto &edge : edges){
+           int u = edge[0];
+           int v = edge[1];
 
-        for(auto edge:edges){
-            int u = edge[0];
-            int v = edge[1];
-
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+           adj[u].push_back(v);
+           adj[v].push_back(u);
         }
 
-        vector<bool>visited(n+1,false);
-        queue<int>q;
-        q.push(source);
-        visited[source] = true;
+        vector<bool>visited(n,false);
 
-        while(!q.empty()){
-            int u = q.front();
-            q.pop();
-            
-            for(auto x:adj[u]){
-                if(!visited[x]){
-                    visited[x] = true;
-                    q.push(x);
-                }
-            }
-        }
-        
-        if(visited[destination]==false) return false;
+        BFS(adj,source,visited);
 
-        return true;
+        return visited[destination];
     }
 };
