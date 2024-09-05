@@ -18,7 +18,7 @@ public:
                 if(i+1 != j+1 && mat[i][j]==1) adj[i+1].push_back(j+1);
             }
         }
-        vector<bool>visited(n,false);
+        vector<bool>visited(n+1,false);
         int cnt = 0;
         for(int i=1;i<=n;i++){
             if(!visited[i]){
