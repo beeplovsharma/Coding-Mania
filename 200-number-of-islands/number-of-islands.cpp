@@ -1,33 +1,56 @@
 class Solution {
 public:
-    bool isValid(vector<vector<char>>& grid,int i,int j,int n,int m){
-        if(i>=0 && i<n && j>=0 && j<m && grid[i][j]=='1') return true;
+    bool isValid(vector<vector<char>>& grid, int row, int col,vector<vector<int>>& visited) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        if (row >= 0 && row < m && col >= 0 && col < n 
+            && grid[row][col] == '1' && !visited[row][col])
+            return true;
 
         return false;
     }
-    void DFSRec(vector<vector<char>>& grid,int i,int j,int n,int m){
-        grid[i][j] = '0';
+    void BFS(vector<vector<char>>& grid, int row, int col,
+             vector<vector<int>>& visited) {
+        queue<pair<int, int>> q;
+        q.push({row, col});
+        visited[row][col] = 1;
 
-        if(isValid(grid,i+1,j,n,m)) DFSRec(grid,i+1,j,n,m); 
-        if(isValid(grid,i-1,j,n,m)) DFSRec(grid,i-1,j,n,m); 
-        if(isValid(grid,i,j+1,n,m)) DFSRec(grid,i,j+1,n,m); 
-        if(isValid(grid,i,j-1,n,m)) DFSRec(grid,i,j-1,n,m); 
+        // Four possible directions for movement (up, down, left, right)
+        vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
+        while (!q.empty()) {
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+
+            // Traverse the neighbours in the four valid directions
+            for (auto dir : directions) {
+                int nrow = row + dir.first;
+                int ncol = col + dir.second;
+                if (isValid(grid, nrow, ncol, visited)) {
+                    q.push({nrow, ncol});
+                    visited[nrow][ncol] = 1;
+                }
+            }
+        }
     }
     int numIslands(vector<vector<char>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-        int ans = 0;
+        int m = grid.size();
+        int n = grid[0].size();
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(grid[i][j]=='1'){
-                    ans++;
-                    DFSRec(grid,i,j,n,m);
+        vector<vector<int>> visited(m, vector<int>(n, 0));
+        int cnt = 0;
+
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (!visited[row][col] && grid[row][col] == '1') {
+                    cnt++;
+                    BFS(grid, row, col, visited);
                 }
             }
         }
 
-        return ans;
+        return cnt;
     }
 };
