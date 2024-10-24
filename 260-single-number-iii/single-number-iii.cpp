@@ -1,21 +1,32 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        long xorr = 0;
         int n = nums.size();
+
+        int xor_all = 0;
         for(int i=0;i<n;i++){
-            xorr = xorr ^ nums[i];
+            xor_all ^= nums[i];
         }
 
-        int rightmost_set = (xorr & (xorr-1))^xorr;
-
-        int b1=0,b2=0;
-
-        for(int i=0;i<n;i++){
-            if(nums[i] & rightmost_set) b1 = b1^nums[i];
-            else b2 = b2 ^ nums[i];
+        int f_set_bit = 0;
+        int temp = xor_all;
+        while(temp){
+            if(temp&1){
+                break;
+            }
+            else{
+                f_set_bit++;
+                temp = temp>>1;
+            }
         }
 
-        return {b1,b2};
+        int x=0;
+        for(int i=0;i<n;i++){
+            if(nums[i] & (1<<f_set_bit)) x = x^nums[i];
+        }
+
+        int y = xor_all^x;
+
+        return {x,y};
     }
 };
