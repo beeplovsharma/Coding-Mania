@@ -1,35 +1,41 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        int n = nums.size();
-        int low=0,high=n-1;
+    int leftfun(vector<int>& nums, int target){
+        int low=0,high = nums.size()-1;
+        int left_most = -1;
 
-        int flag=-1;
         while(low<=high){
-            int mid = low + (high-low)/2;
+            int mid = low + (high - low)/2;
 
             if(nums[mid]==target){
-                flag = mid;
-                break;
+                left_most = mid;
+                high = mid-1;
             }
-            else if(nums[mid]<target) low = mid+1;
-            else high = mid-1;
+            else if(target<nums[mid]) high = mid-1;
+            else low = mid+1;
         }
+        return left_most;
+    }
+    int rightfun(vector<int>& nums, int target){
+        int low=0,high = nums.size()-1;
+        int right_most = -1;
 
-        int l=flag,r=flag;
-        while(l>0){
-            if(nums[l-1]!=target){
-                break;
-            }
-            l--;
-        }
-        while(r<n-1){
-            if(nums[r+1]!=target){
-            break;
-            }
-            r++;
-        }
+        while(low<=high){
+            int mid = low + (high - low)/2;
 
-        return {l,r};
+            if(nums[mid]==target){
+                right_most = mid;
+                low = mid+1;
+            }
+            else if(target<nums[mid]) high = mid-1;
+            else low = mid+1;
+        }
+        return right_most;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int left = leftfun(nums,target);
+        int right = rightfun(nums,target);
+
+        return {left,right};
     }
 };
