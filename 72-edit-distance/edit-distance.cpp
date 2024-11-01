@@ -1,12 +1,12 @@
 class Solution {
 public:
     int fun(string s, string t,int i,int j,vector<vector<int>>&dp){
-        if(i<0) return j+1;
-        if(j<0) return i+1;
+        if(i==0) return j;
+        if(j==0) return i;
 
         if(dp[i][j]!=-1) return dp[i][j];
 
-        if(s[i]==t[j]){
+        if(s[i-1]==t[j-1]){
             return dp[i][j] = 0+fun(s,t,i-1,j-1,dp);
         }
         else{
@@ -18,7 +18,8 @@ public:
     }
     int minDistance(string s, string t) {
         int n = s.size(), m = t.size();
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        return fun(s,t,n-1,m-1,dp);
+        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+
+        return fun(s,t,n,m,dp);
     }
 };
