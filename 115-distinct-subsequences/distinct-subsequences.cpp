@@ -1,24 +1,26 @@
 class Solution {
 public:
-    #define ll long long
     int numDistinct(string s, string t) {
         int n = s.size(),m=t.size();
-        vector<vector<double>>dp(n+1,vector<double>(m+1,0));
+        vector<double>prev(m+1,0),cur(m+1,0);
+        // vector<vector<double>>dp(n+1,vector<double>(m+1,0));
 
-        for(int i=0;i<=n;i++) dp[i][0] = 1;
+        prev[0] = 1;
+        cur[0] = 1;
 
         for(int i=1;i<=n;i++){
             for(int j=1;j<=m;j++){
                 double one = 0;
                 double two = 0;
                 if(s[i-1]==t[j-1])
-                    one = dp[i-1][j-1] + dp[i-1][j];
+                    one = prev[j-1] + prev[j];
                 else
-                    two = dp[i-1][j];
+                    two = prev[j];
                 
-                dp[i][j] = one+two;
+                cur[j] = one+two;
             }
+            prev = cur;
         }
-        return (int)dp[n][m];
+        return (int)cur[m];
     }
 };
