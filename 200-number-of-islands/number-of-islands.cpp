@@ -63,7 +63,7 @@ public:
             for (int col = 0; col < n; col++) {
                 if (!visited[row][col] && grid[row][col] == '1') {
                     cnt++;
-                    DFS(grid, row, col, visited);
+                    BFS(grid, row, col, visited);
                 }
             }
         }
