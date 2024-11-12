@@ -10,6 +10,23 @@ public:
 
         return false;
     }
+    void DFS(vector<vector<char>>& grid, int row, int col,
+             vector<vector<int>>& visited){
+        queue<pair<int, int>> q;
+        q.push({row, col});
+        visited[row][col] = 1;
+        // Four possible directions for movement (up, down, left, right)
+        vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        for (auto dir : directions) {
+                int nrow = row + dir.first;
+                int ncol = col + dir.second;
+                if (isValid(grid, nrow, ncol, visited)) {
+                    DFS(grid,nrow,ncol,visited);
+                }
+            }
+
+    }
     void BFS(vector<vector<char>>& grid, int row, int col,
              vector<vector<int>>& visited) {
         queue<pair<int, int>> q;
@@ -46,7 +63,7 @@ public:
             for (int col = 0; col < n; col++) {
                 if (!visited[row][col] && grid[row][col] == '1') {
                     cnt++;
-                    BFS(grid, row, col, visited);
+                    DFS(grid, row, col, visited);
                 }
             }
         }
