@@ -12,9 +12,9 @@ public:
                 i++;
                 cnt++;
             }
+            ans+=to_string(cnt);
             ans+=s[idx];
             idx++;
-            ans+=to_string(cnt);
             idx = i;
         }
         return ans;
@@ -29,7 +29,7 @@ public:
     
     string countAndSay(int n) {
         string ans = rec(n);
-        reverse(ans.begin(),ans.end());
+        // reverse(ans.begin(),ans.end());
         return ans;
         
     }
