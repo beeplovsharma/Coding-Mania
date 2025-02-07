@@ -1,29 +1,27 @@
 class Solution {
 public:
     vector<int> queryResults(int limit, vector<vector<int>>& queries) {
-        vector<int>ans;
-        map<int,int>column;
-        unordered_map<int,int>m;
-        int diff = 0;
-        for(auto x:queries){
-            if(column.find(x[0])==column.end()){
-                column[x[0]]=x[1];
-                if(m.find(x[1])==m.end()) diff++;
-                m[x[1]]++; 
-            }
-            else{
-                m[column[x[0]]]--;
-                if(m[column[x[0]]]==0){
-                    m.erase(column[x[0]]);
-                    diff--;
-                }
-                column[x[0]]=x[1];
-                if(m.find(x[1])==m.end()) diff++;
+        map<int,int>mp;
+        map<int,int>bc;
 
-                m[x[1]]++;
+        vector<int>ans;
+
+        for(auto q:queries){
+            int ball = q[0];
+            int color = q[1];
+
+            if(bc.find(ball)!=bc.end()){
+                int prev_color = bc[ball];
+                mp[prev_color]--;
+                if(mp[prev_color]<=0) mp.erase(prev_color);
             }
-            ans.push_back(diff);
+
+            bc[ball]=color;
+            mp[color]++;
+
+            ans.push_back(mp.size());
         }
+
         return ans;
     }
 };
