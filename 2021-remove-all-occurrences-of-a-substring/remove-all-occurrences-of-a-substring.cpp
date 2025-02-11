@@ -1,41 +1,34 @@
 class Solution {
 public:
-    bool findPart(stack<char>& st, const string& pp) {
-        stack<char> temp = st;
-        for (char c : pp) {
-            if (temp.empty() || c != temp.top()) return false;
+    bool findpart(stack<char>&st,string part){
+        stack<char>temp = st;
+        int n = part.size();
+        for(int i=n-1;i>=0;i--){
+            if(!temp.empty() && temp.top()!=part[i]) return false;
             temp.pop();
         }
         return true;
     }
-    string removeOccurrences(string s, string part) {
-        string pp = part;
-        reverse(pp.begin(),pp.end());
 
+    string removeOccurrences(string s, string part) {
         int n = s.size();
         int m = part.size();
+
         stack<char>st;
-        int i=0;
-        while(i<n){
-            if(st.size()>=part.size() && findPart(st,pp)){
-                for(int j=0;j<m;j++){
-                 if(!st.empty()) st.pop();   
-                }
+        for(int i=0;i<n;i++){
+            st.push(s[i]);
+
+            if(st.size()>=m && findpart(st,part)){
+                for(int j=0;j<m;j++) st.pop();
             }
-            st.push(s[i++]);
-        }
-        
-        if(st.size()>=part.size() && findPart(st,pp)){
-                for(int j=0;j<m;j++){
-                 if(!st.empty()) st.pop();   
-                }
         }
 
-        string ans;
+        string ans = "";
         while(!st.empty()){
             ans.push_back(st.top());
             st.pop();
         }
+
         reverse(ans.begin(),ans.end());
         return ans;
     }
