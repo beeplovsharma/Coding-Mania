@@ -1,15 +1,10 @@
 class Solution {
 public:
     int brokenCalc(int startValue, int target) {
-        long long cnt = 0;
-        while(target>=0){
-            if(target==startValue) break;
+        if(target<=startValue) return (startValue-target);
 
-            if(target&1 || target<startValue) target+=1;
-            else target=target/2;
+        if(target%2==0) return 1+brokenCalc(startValue,target/2);
 
-            cnt++;
-        }
-        return cnt;
+        return 1+brokenCalc(startValue,target+1);
     }
 };
