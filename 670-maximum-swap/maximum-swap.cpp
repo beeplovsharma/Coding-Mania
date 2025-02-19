@@ -3,22 +3,24 @@ public:
     int maximumSwap(int num) {
         string s = to_string(num);
         int n = s.size();
-        vector<int>pre(n,0);
-        pre[n-1] = n-1;
-
-        for(int i=n-2;i>=0;i--){
-            if(s[i]<=s[pre[i+1]]) pre[i] = pre[i+1];
-            else pre[i] = i;
+        vector<int>pre(10,-1);
+        for(int i=0;i<n;i++){
+            int idx = s[i] - '0';
+            pre[idx] = i;
         }
-
 
         for(int i=0;i<n;i++){
-            if(s[i]==s[pre[i]]) continue;
+            char currChar = s[i];
+            int currDigit = currChar-'0';
 
-            swap(s[i],s[pre[i]]);
-            break;
+            for(int j=9;j>currDigit;j--){
+                if(pre[j]>i){
+                    swap(s[i],s[pre[j]]);
+                    return stoi(s);
+                }
+            }
         }
 
-        return stoi(s);
+        return num;
     }
 };
