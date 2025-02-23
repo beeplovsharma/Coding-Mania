@@ -19,6 +19,6 @@ public:
 
         if(lh==NULL) return rh;
         if(rh==NULL) return lh;
-        return root;
+        return root; //Jab Dono Me Koi NULL Nahi Ho
     }
 };
