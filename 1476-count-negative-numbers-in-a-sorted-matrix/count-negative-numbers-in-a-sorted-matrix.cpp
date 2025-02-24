@@ -7,7 +7,7 @@ public:
             int mid = (lo+hi)/2;
 
             if(v[mid]<0) hi=mid;
-            else lo=mid+1;
+            else lo=mid;
         }
 
         if(v[lo]<0) return lo;
