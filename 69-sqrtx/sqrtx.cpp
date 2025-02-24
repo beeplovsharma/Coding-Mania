@@ -1,13 +1,19 @@
 class Solution {
-#define ll long long
 public:
-    int mySqrt(int x) {
-        int ans = 0;
-        for(ll i=1;i*i<=x;i++){
-            if(i <= x/i){
-                ans = i;
-            }
+    int mySqrt(int n) {
+        if(n==0 || n==1) return n;
+
+        int lo = 0, hi = n;
+        while(hi-lo>1){
+            int mid = hi+(lo-hi)/2;
+
+            if(mid<=n/mid) lo = mid;
+            else hi = mid-1;
         }
-        return ans;
+
+        if(hi<=n/hi) return hi;
+        if(lo<=n/lo) return lo;
+
+        return -1;
     }
 };
