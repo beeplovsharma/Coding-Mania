@@ -27,7 +27,7 @@ public:
             if(feasible(nums,k,mid)){
                 hi = mid;
             }
-            else lo=mid+1;
+            else lo=mid;
         }
 
         if(feasible(nums,k,lo)) return lo;
