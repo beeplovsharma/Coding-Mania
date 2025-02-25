@@ -1,28 +1,36 @@
 class Solution {
 public:
-    int minEatingSpeed(vector<int>& piles, int h) {
-
-    int n = piles.size();
-    int low = 1,high=*max_element(piles.begin(),piles.end());
-    int mid = (low+mid)/2;
-    int ans = -1;
-    while(low<=high){
-        mid = low+(high-low)/2;
-        double hrs = 0;
+    #define ll long long
+    bool feasible(vector<int>& piles,int H,int threshold){
+        int sum=0;
+        int n = piles.size();
+        ll hr = 0;
         for(int i=0;i<n;i++){
-            hrs += ceil(double(piles[i])/mid);
-        }
+            if(piles[i]>=threshold){
+                hr+=ceil(piles[i]/(double)threshold);
+            }
+            else{
+                hr+=1;
+            }
 
-        if(hrs<=h){
-            ans = mid;
-            high = mid-1;
+            if(hr>H) return false;
         }
-
-        else{
-            low = mid+1;
-        }
+        return true;
     }
-    return ans;
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int lo = 1;
+        int hi = 1e9;
 
+        while(hi-lo>1){
+            int mid = lo+(hi-lo)/2;
+
+            if(feasible(piles,h,mid)) hi=mid;
+            else lo=mid;
+        }
+
+        if(feasible(piles,h,lo)) return lo;
+        if(feasible(piles,h,hi)) return hi;
+
+        return -1;
     }
 };
