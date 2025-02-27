@@ -1,27 +1,25 @@
 class Solution {
 public:
-    int lenLongestFibSubseq(vector<int>& arr) {
-        int n = arr.size();
-    unordered_map<int, int> index;
-    vector<vector<int>> dp(n, vector<int>(n, 2)); // Base case: length of Fibonacci sequence is at least 2
-    int maxLen = 0;
 
-    // Store indices for quick lookup
-    for (int i = 0; i < n; i++)
-        index[arr[i]] = i;
+    int solve(vector<int>& nums,unordered_set<int>&st,int x,int y){
+        int n = nums.size();
+        int next = x+y;
+        if(st.find(next)==st.end()) return 0;
 
-    // Iterate over all pairs (i, j) where i < j
-    for (int j = 1; j < n; j++) {
-        for (int i = 0; i < j; i++) {
-            int x = arr[j] - arr[i]; // The number we expect to form a Fibonacci sequence
-            if (index.count(x) && index[x] < i) {
-                int k = index[x]; // Get the index of `x`
-                dp[i][j] = dp[k][i] + 1; // Update DP state
-                maxLen = max(maxLen, dp[i][j]);
+        return 1+solve(nums,st,y,next);
+        
+    }
+    
+    int lenLongestFibSubseq(vector<int>& nums) {
+        int n = nums.size();
+        int maxi = INT_MIN;
+        unordered_set<int>st(begin(nums),end(nums));
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int ans = 2+solve(nums,st,nums[i],nums[j]);
+                maxi = max(maxi,ans);
             }
         }
-    }
-
-    return (maxLen >= 3) ? maxLen : 0;
+        return maxi > 2 ? maxi : 0;
     }
 };
