@@ -10,18 +10,16 @@ public:
             }
         }
 
-        vector<int>final;
-        
-        for(int i=0;i<n;i++){
-            if(nums[i]!=0) final.push_back(nums[i]);
-            else cnt++;
+        int i=0,j=0;
+        while(j<n){
+            if(nums[j]!=0){
+                nums[i]=nums[j];
+                i++;
+            }
+            j++;
         }
 
-        int i=0;
-        while(i<cnt){
-            final.push_back(0);
-            i++;
-        }
-        return final;
+        while(i<n) nums[i++]=0;
+        return nums;
     }
 };
