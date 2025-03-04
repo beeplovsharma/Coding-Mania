@@ -1,13 +1,17 @@
 class Solution {
 public:
-    bool checkPowersOfThree(int n) {
-        while(n>3){
-            int rem = n%3;
-            if(rem==2) return false;
-            n=n/3;
-        }
+    #define ll long long
+    bool fun(int n,int p,ll sum){
+        if(sum>n) return false;
+        if(sum==n) return true;
 
-        if(n%3<2) return true;
-        return false;
+        if(pow(3,p)>1e7) return false;
+        bool take = fun(n,p+1,sum+pow(3,p));
+        bool notTake = fun(n,p+1,sum);
+
+        return (take || notTake);
+    }
+    bool checkPowersOfThree(int n) {
+       return fun(n,0,0);
     }
 };
