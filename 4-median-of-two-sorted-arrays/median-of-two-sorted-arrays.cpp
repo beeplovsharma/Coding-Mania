@@ -1,35 +1,30 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& a, vector<int>& b) {
-        int n1 = a.size(), n2 = b.size();
-        // if n1 is bigger swap the arrays:
-        if (n1 > n2)
-            return findMedianSortedArrays(b, a);
-
-        int n = n1 + n2;
-        int left = (n1 + n2 + 1) / 2; 
-        int low = 0, high = n1;
-        while (low <= high) {
-            int mid1 = (low + high) >> 1;
-            int mid2 = left - mid1;
-            int l1 = (mid1 == 0) ? INT_MIN : a[mid1 - 1];
-            int l2 = (mid2 == 0) ? INT_MIN : b[mid2 - 1];
-            int r1 = (mid1 == n1) ? INT_MAX : a[mid1];
-            int r2 = (mid2 == n2) ? INT_MAX : b[mid2];
-
-            if (l1 <= r2 && l2 <= r1) {
-                if (n % 2 == 1)
-                    return max(l1, l2);
-                else
-                    return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int i=0, j=0;
+        int n = nums1.size(), m = nums2.size();
+        vector<int>merged;
+        while(i<n && j<m){
+            if(nums1[i]<nums2[j]) merged.push_back(nums1[i++]);
+            else if(nums1[i]>nums2[j]) merged.push_back(nums2[j++]);
+            else if(nums1[i]==nums2[j]){
+                merged.push_back(nums1[i++]);
+                merged.push_back(nums2[j++]);
             }
-
-            // eliminate the halves:
-            else if (l1 > r2)
-                high = mid1 - 1;
-            else
-                low = mid1 + 1;
         }
-        return 0;
+
+        while(i<n){
+            merged.push_back(nums1[i++]);
+        }
+        while(j<m){
+            merged.push_back(nums2[j++]);
+        }
+
+        int size = merged.size();
+        if(size%2==0){
+            return (double(merged[size/2]) + double(merged[size/2-1]))/2.0;
+        }
+        
+        return merged[size/2];
     }
 };
