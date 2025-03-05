@@ -13,14 +13,14 @@ public:
     }
 
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        vector<int>nums;
-        int n = matrix.size(), m = matrix[0].size();
+        int n = matrix.size();
+        int m = matrix[0].size();
+
         for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                nums.push_back(matrix[i][j]);
-            }
+            if(matrix[i][0]<=target && target<=matrix[i][m-1])
+                return bs(matrix[i],target);
         }
 
-        return bs(nums,target);
+        return false;
     }
 };
