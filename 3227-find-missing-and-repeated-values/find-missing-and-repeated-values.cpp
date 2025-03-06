@@ -1,20 +1,30 @@
 class Solution {
 public:
+    #define ll long long
     vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
-        map<int,int>mp;
+        ll sum = 0;
+        ll sqSum = 0;
+
         int n = grid.size();
-        int m = grid[0].size();
+
         for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                mp[grid[i][j]]++;
+            for(int j=0;j<n;j++){
+                sum += grid[i][j];
+                sqSum += grid[i][j] * grid[i][j];
             }
         }
 
-        int a,b;
-        for(int i=0;i<n*n;i++){
-            if(mp.find(i+1)==mp.end()) b=i+1;
-            if(mp[i+1]==2) a=i+1;
-        }
-        return {a,b};
+        int len = n*n;
+        ll perfectSum = (len)*(len+1)/2;
+        ll perfectSqSum = (len)*1LL*(len+1)*(2*len+1)/6;
+
+        ll sumDiff = sum - perfectSum;
+        ll sqDiff = sqSum - perfectSqSum;
+
+        int repeat = (sqDiff / sumDiff + sumDiff) / 2;
+        int missing = (sqDiff / sumDiff - sumDiff) / 2;
+
+        return {repeat,missing};
+
     }
 };
