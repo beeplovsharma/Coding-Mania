@@ -12,6 +12,7 @@ public:
                 j++;
             }
             else if(j-i+1==k){
+                
                 if(blocks[j]=='W') white++;
                 else black++;
 
