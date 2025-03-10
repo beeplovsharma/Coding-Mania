@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> diffWaysToCompute(string expression) {
-        vector<int>ans;
+        vector<int>temp;
 
         bool isNumber = true;
         for(auto ch:expression){
@@ -12,9 +12,11 @@ public:
         }
 
         if(isNumber){
-            ans.push_back(stoi(expression));
-            return ans;
+            temp.push_back(stoi(expression));
+            return temp;
         }
+
+        vector<int>ans;
         
         for(int i=0;i<expression.size();i++){
             char ch = expression[i];
