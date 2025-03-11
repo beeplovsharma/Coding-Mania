@@ -1,32 +1,25 @@
 class Solution {
 public:
-    int countSubarray(vector<int>& nums, int k){
+    int fun(vector<int>& nums, int k){
+        int i=0,j=0;
         int n = nums.size();
-        int l = 0, r = 0;
-        unordered_map<int,int>mp;
         int cnt = 0;
+        map<int,int>mp;
+        while(j<n){
+            mp[nums[j]]++;
 
-        while(r<n){
-            mp[nums[r]]++;
-
-            while(l<=r && mp.size()>k){
-                mp[nums[l]]--;
-                if(mp[nums[l]]==0) mp.erase(nums[l]);
-                l++;
+            while(i<=j && mp.size()>k){
+                mp[nums[i]]--;
+                if(mp[nums[i]]==0) mp.erase(nums[i]);
+                i++;
             }
 
-            if(mp.size()<=k){
-                cnt += r-l+1;
-            }
-
-            r++;
+            cnt+=j-i+1;
+            j++;
         }
         return cnt;
     }
     int subarraysWithKDistinct(vector<int>& nums, int k) {
-        int x = countSubarray(nums,k);
-        int y = countSubarray(nums,k-1);
-
-        return (x-y);
+        return fun(nums,k)-fun(nums,k-1);
     }
 };
