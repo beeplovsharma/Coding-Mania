@@ -1,25 +1,21 @@
 class Solution {
-#define ll long long
 public:
+    typedef long long ll;
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        // if(k<=1) return 0;
-        
-        int p = 1;
-        int i = 0, j = 0;
-        int cnt = 0;
-        int n = nums.size();
+        int l = 0, r= 0;
+        int n=nums.size();
+        ll prod = 1;
+        int cnt=0;
+        while(r<n){
+            prod*=nums[r];
 
-        while(j<n){
-            p = p * nums[j];
-
-            while(p>=k && i<=j){
-                p = p/nums[i];
-                i++;
+            while(l<=r && prod>=k){
+                prod/=nums[l];
+                l++;
             }
 
-            int wsize = (j-i+1);
-            cnt+=wsize;
-            j++;
+            cnt+=r-l+1;
+            r++;
         }
         return cnt;
     }
