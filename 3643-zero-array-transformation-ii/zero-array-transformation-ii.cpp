@@ -37,28 +37,17 @@ public:
         if(checkZero(nums)) return 0;
 
         int lo=0,hi=Q-1;
-        int k = -1;
-        while(lo<=hi){
+        
+        while(hi-lo>1){
             int mid = lo + (hi-lo)/2;
-            if(checkTillMid(nums,queries,mid)){
-                k=mid+1;
-                hi=mid-1;
-            }
-            else{
-                lo=mid+1;
-            }
+
+            if(checkTillMid(nums,queries,mid)) hi = mid;
+            else lo = mid;
         }
-        return k;
-        // while(hi-lo>1){
-        //     int mid = lo + (hi-lo)/2;
 
-        //     if(checkTillMid(nums,queries,mid)) hi = mid;
-        //     else lo = mid;
-        // }
+        if(checkTillMid(nums,queries,lo)) return lo+1;
+        if(checkTillMid(nums,queries,hi)) return hi+1;
 
-        // if(checkTillMid(nums,queries,lo)) return lo+1;
-        // if(checkTillMid(nums,queries,hi)) return hi+1;
-
-        // return -1;
+        return -1;
     }
 };
