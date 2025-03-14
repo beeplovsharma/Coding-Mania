@@ -15,7 +15,7 @@ public:
     }
     int maximumCandies(vector<int>& nums, long long k) {
         int lo = 1;
-        int hi = 1e9;
+        int hi = *max_element(nums.begin(),nums.end());
 
         while(hi-lo>1){
             int mid = lo + (hi-lo)/2;
