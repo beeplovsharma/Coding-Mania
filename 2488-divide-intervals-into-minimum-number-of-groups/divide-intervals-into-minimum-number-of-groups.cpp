@@ -11,8 +11,9 @@ public:
             mp[right+1]--;
         }
 
-        int maxi = 0;
+        //min no of group have to make = max no. of overlap
         int sum = 0;
+        int maxi = 0;
         for(auto x:mp){
             sum += x.second;
             maxi = max(maxi,sum);
