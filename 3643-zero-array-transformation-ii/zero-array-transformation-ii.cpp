@@ -9,15 +9,15 @@ public:
 
     bool checkZeroTillMid(vector<int>& nums, vector<vector<int>>& queries, int tar){
         int n = nums.size();
-        vector<int>diffArr(n,0);
-        
+        vector<int>diffArr(n+1,0);
+
         for(int i=0;i<=tar;i++){
             int l = queries[i][0];
             int r = queries[i][1];
             int val = queries[i][2];
 
             diffArr[l]+=val;
-            if(r+1<n) diffArr[r+1]-=val;
+            diffArr[r+1]-=val;
         }
 
         for(int i=1;i<n;i++) diffArr[i] += diffArr[i-1];
