@@ -1,6 +1,5 @@
 class Solution {
 public:
-
     bool checkZero(vector<int>& nums){
         for(int i=0;i<nums.size();i++){
             if(nums[i]!=0) return false;
@@ -8,11 +7,11 @@ public:
         return true;
     }
 
-    bool checkTillMid(vector<int>& nums, vector<vector<int>>& queries,int mid){
+    bool checkZeroTillMid(vector<int>& nums, vector<vector<int>>& queries, int tar){
         int n = nums.size();
-
         vector<int>diffArr(n,0);
-        for(int i=0;i<=mid;i++){
+        
+        for(int i=0;i<=tar;i++){
             int l = queries[i][0];
             int r = queries[i][1];
             int val = queries[i][2];
@@ -21,12 +20,11 @@ public:
             if(r+1<n) diffArr[r+1]-=val;
         }
 
-        for(int i=1;i<n;i++) diffArr[i] = diffArr[i]+diffArr[i-1];
+        for(int i=1;i<n;i++) diffArr[i] += diffArr[i-1];
 
         for(int i=0;i<n;i++){
             if(diffArr[i]<nums[i]) return false;
         }
-
         return true;
     }
 
@@ -36,18 +34,19 @@ public:
 
         if(checkZero(nums)) return 0;
 
-        int lo=0,hi=Q-1;
-        
-        while(hi-lo>1){
-            int mid = lo + (hi-lo)/2;
+        int lo = 0, hi = Q-1;
 
-            if(checkTillMid(nums,queries,mid)) hi = mid;
+        while(hi-lo>1){
+            int mid = lo+(hi-lo)/2;
+
+            if(checkZeroTillMid(nums,queries,mid)) hi = mid;
             else lo = mid;
         }
 
-        if(checkTillMid(nums,queries,lo)) return lo+1;
-        if(checkTillMid(nums,queries,hi)) return hi+1;
+        if(checkZeroTillMid(nums,queries,lo)) return lo+1;
+        if(checkZeroTillMid(nums,queries,hi)) return hi+1;
 
         return -1;
+
     }
 };
