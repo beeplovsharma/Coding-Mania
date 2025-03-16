@@ -10,6 +10,8 @@ public:
             else x++;
         }
 
+        if(!(x%2==0 && y%2==0)) return -1;
+
         int xy = 0;
         int yx = 0;
         for(int i=0;i<n;i++){
@@ -21,6 +23,6 @@ public:
             return (xy/2+yx/2);
         }
 
-        return (x%2==0 && y%2==0) ? ((xy/2+yx/2)) + 2 : -1;
+        return ((xy/2+yx/2)) + 2;
     }
 };
