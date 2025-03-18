@@ -13,7 +13,7 @@ public:
             
             for (int k = 31; k >= 0; k--) {
                 if (nn & (1 << k)) { // Checking if bit k is set
-                    if (mp[k] > 0) dup++;  // If bit is already present, increment conflict count
+                    if (mp.find(k) != mp.end()) dup++;  // If bit is already present, increment conflict count
                     mp[k]++;  // Increment count for bit position k
                 }
             }
