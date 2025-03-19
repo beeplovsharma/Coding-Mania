@@ -2,25 +2,20 @@ class Solution {
 public:
     int minOperations(vector<int>& nums) {
         int n = nums.size();
-        int cntFlip = 0;
-        int flips = 0;
-        vector<bool>isFlipped(n,0);
-        int k = 3;
+        int cnt=0;
+        for(int i=0;i<=n-3;i++){
+            if(nums[i]==1) continue;
 
-        for(int i=0;i<n;i++){
-            if(i>=k && isFlipped[i-k]==true){
-                cntFlip--;
+            for(int j=i;j<=i+2;j++){
+                nums[j] = nums[j]^1;
             }
-
-            if((cntFlip%2==nums[i])){
-                if(i+k>n) return -1;
-
-                cntFlip++;
-                flips++;
-                isFlipped[i] = true;
-            }
+            cnt++;
         }
 
-        return flips;
+        for(int i=0;i<n;i++){
+            if(nums[i]==0) return -1;
+        }
+
+        return cnt;
     }
 };
