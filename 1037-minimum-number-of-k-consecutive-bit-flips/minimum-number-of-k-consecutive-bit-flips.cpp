@@ -4,14 +4,12 @@ public:
         int n = nums.size();
         int cntFlip = 0;
         vector<bool>isFlipped(n,0);
-        int flips = 0;
 
         for(int i=0;i<n;i++){
 
             if(nums[i]==0 && cntFlip==0 && i+k<=n){
                 cntFlip++;
                 isFlipped[i]=true;
-                flips++;
             }
 
             if(i-k>=0 && isFlipped[i-k]==true){
@@ -22,10 +20,13 @@ public:
                 if(i+k>n) return -1;
                 cntFlip++;
                 isFlipped[i]=true;
-                flips++;
             }
         }
 
+        int flips=0;
+        for(auto x:isFlipped){
+            if(x==1) flips++;
+        }
         return flips;
     }
 };
