@@ -1,25 +1,29 @@
 class Solution {
 public:
-#define ll long long
+    typedef long long ll;
     vector<int> getAverages(vector<int>& nums, int k) {
+        int win = 2*k+1;
         int i=0,j=0;
         int n = nums.size();
-        k = 2*k+1;
-        ll sum = 0;
         vector<int>ans(n,-1);
+        ll sum = 0;
         while(j<n){
-            sum += nums[j];
+            sum+=nums[j];
 
-            if(j-i+1 == k){
-                int ind = k/2+i;
-                ans[ind] = (int)(sum/k);
+            if(j-i+1<win){
+                j++;
+            }
+            else if(j-i+1==win){
+                ll avg = sum/win;
+                int idx = (i+j)/2;
+                ans[idx]=avg;
 
                 sum-=nums[i];
                 i++;
+                j++;
             }
-
-            j++;
         }
+
         return ans;
     }
 };
