@@ -1,5 +1,6 @@
 class Solution {
 public:
+//boht hard ques
     int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
         int n=nums.size();
         int q=queries.size();
