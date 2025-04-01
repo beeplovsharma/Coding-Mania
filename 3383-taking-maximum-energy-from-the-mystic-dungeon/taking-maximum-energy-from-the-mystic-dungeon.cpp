@@ -1,19 +1,19 @@
 class Solution {
 public:
-    int fun(vector<int>& energy, int k, int ind, vector<int>&dp){
-        int n = energy.size();
-        if (ind >= n) return 0;
-
-        if(dp[ind]!=-1) return dp[ind];
-
-        return dp[ind] = energy[ind] + fun(energy, k, ind + k,dp);
-    }
     int maximumEnergy(vector<int>& energy, int k) {
         int n = energy.size();
-        vector<int>dp(n+1,-1);
+        vector<int>dp(n,0);
         int maxi = INT_MIN;
-        for(int i=0;i<energy.size();i++){
-            maxi = max(maxi,fun(energy,k,i,dp));
+        
+        for(int ind=n-1;ind>=0;ind--){
+            if (ind + k < n)
+                dp[ind] = energy[ind] + dp[ind + k];
+            else
+                dp[ind] = energy[ind];
+        }
+
+        for(int i=0;i<n;i++){
+            maxi = max(maxi,dp[i]);
         }
         return maxi;
     }
