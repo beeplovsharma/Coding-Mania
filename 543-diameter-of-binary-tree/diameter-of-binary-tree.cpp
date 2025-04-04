@@ -11,21 +11,32 @@
  */
 class Solution {
 public:
-    int maxHeight(TreeNode* root){
-        if(root==NULL) return -1;
+    struct DiaPair{
+        int height;
+        int diameter;
+    };
 
-        int left = maxHeight(root->left);
-        int right = maxHeight(root->right);
+    DiaPair fun(TreeNode* root){
+        if(root==NULL){
+            DiaPair base;
+            base.height = -1; // height of null is -1
+            base.diameter = 0;
+            return base;
+        }
 
-        return 1 + max(left,right);
+        DiaPair left = fun(root->left);   // faith
+        DiaPair right = fun(root->right); // faith
+
+        DiaPair self;
+        self.height = max(left.height, right.height) + 1;
+
+        int pathThroughRoot = left.height + right.height + 2;
+        self.diameter = max({left.diameter, right.diameter, pathThroughRoot}); // expectation
+
+        return self;
     }
+
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root==NULL) return 0;
-
-        int ld = diameterOfBinaryTree(root->left);
-        int rd = diameterOfBinaryTree(root->right);
-        int f = 2 + maxHeight(root->left) + maxHeight(root->right);
-
-        return max({ld,rd,f});
+        return fun(root).diameter;
     }
 };
