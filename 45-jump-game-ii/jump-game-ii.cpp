@@ -1,36 +1,20 @@
 class Solution {
 public:
-//     int recursion(vector<int>& nums, int ind, int jumps) {
-//         int n = nums.size();
-//         if (ind >= n - 1) {
-//             return jumps;
-//         }
-//         int minSteps = INT_MAX;
-    
-//         for (int j = 1; j <=  nums[ind]; ++j) {
-//             if (ind + j < n) {
-//                 minSteps = min(minSteps, solve(nums, ind + j, jumps + 1));
-//             }
-//         }
-//         return minSteps;
-// }
-    int greedy(vector<int>& nums){
-        int l = 0, r = 0;
-        int n = nums.size();
-        int cnt = 0;
-        while(r<n-1){
-            int farthest = 0;
-            for(int i=l;i<=r;i++){
-                farthest = max(farthest,nums[i]+i);
-            }
-            l = r+1;
-            r = farthest;
-            cnt++;
+    int fun(vector<int>& nums,int ind,vector<int>&dp){
+        if(ind==nums.size()-1) return 0;
+        if(ind>=nums.size()) return 1e9;
+
+        if(dp[ind]!=-1) return dp[ind];
+
+        int minJumps = 1e9;
+        for(int jump=1;jump<=nums[ind];jump++){
+            minJumps = min(minJumps,1+fun(nums,ind+jump,dp));
         }
-        return cnt;
+        return dp[ind] = minJumps;
     }
     int jump(vector<int>& nums) {
-        // recursion(nums,0,0);
-        return greedy(nums);
+        int n = nums.size();
+        vector<int>dp(n,-1);
+        return fun(nums,0,dp);
     }
 };
