@@ -1,24 +1,21 @@
 class Solution {
 public:
-    int fun(vector<int>& nums,int ind, int target,vector<int>&dp){
-        if(ind>=nums.size()) return -1e9;
-        if(ind==nums.size()-1) return 0;
-
-        if(dp[ind]!=-1) return dp[ind];
- 
-        int maxJumps = -1e9;
-        for(int jump=ind+1;jump<nums.size();jump++){
-            int canJump = -1e9;
-            if(abs(nums[jump]-nums[ind])<=target) canJump = 1+fun(nums,jump,target,dp);
-            maxJumps = max(maxJumps,canJump); 
-        }
-
-        return dp[ind] = maxJumps;
-    }
     int maximumJumps(vector<int>& nums, int target) {
         int n = nums.size();
-        vector<int>dp(n,-1);
-        int ans = fun(nums,0,target,dp);
+        vector<int>dp(n,0);
+        dp[n-1]=0;
+        
+        for(int ind=n-2;ind>=0;ind--){
+            int maxJumps = -1e9;
+            for(int jump=ind+1;jump<nums.size();jump++){
+                int canJump = -1e9;
+                if(abs(nums[jump]-nums[ind])<=target) canJump = 1+dp[jump];
+                maxJumps = max(maxJumps,canJump); 
+            }
+            dp[ind] = maxJumps;
+        }
+
+        int ans = dp[0];
         return ans<=-1e8 ? -1 : ans;
     }
 };
