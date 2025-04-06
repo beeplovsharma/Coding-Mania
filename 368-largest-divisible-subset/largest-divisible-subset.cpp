@@ -1,34 +1,40 @@
 class Solution {
 public:
-    vector<int> largestDivisibleSubset(vector<int>& arr) {
-        int n = arr.size();
-        vector<int>dp(n,1);
-        vector<int>hash(n);
-        int maxi = 1;
-        int last_ind = 0;
-        sort(arr.begin(),arr.end());
+    vector<int> nums;
 
-        for(int ind = 0;ind<n;ind++){
-            hash[ind] = ind;
-            for(int prev=0;prev<ind;prev++){
-                if(arr[ind]%arr[prev]==0 && dp[ind] < dp[prev]+1){
-                    dp[ind] = dp[prev]+1;
-                    hash[ind] = prev;
+    vector<int> getSubsetEndingAt(int i, vector<vector<int>>&dp) {
+        if(!dp[i].empty()) return dp[i];
+
+        vector<int> bestSubset = {nums[i]};
+
+        for (int j = 0; j < i; j++) {
+            if (nums[i] % nums[j] == 0) {
+                vector<int> prevSubset = getSubsetEndingAt(j,dp);
+                if (prevSubset.size() + 1 > bestSubset.size()) {
+                    bestSubset = prevSubset;
+                    bestSubset.push_back(nums[i]);
                 }
             }
-            if(maxi<dp[ind]){
-                maxi = dp[ind];
-                last_ind = ind;
+        }
+
+        return dp[i] = bestSubset;
+    }
+
+    vector<int> largestDivisibleSubset(vector<int>& input) {
+        nums = input;
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+
+        vector<int> answer;
+        vector<vector<int>>dp(n);
+
+        for (int i = 0; i < n; i++) {
+            vector<int> candidate = getSubsetEndingAt(i,dp);
+            if (candidate.size() > answer.size()) {
+                answer = candidate;
             }
         }
 
-        vector<int>temp;
-        temp.push_back(arr[last_ind]);
-        while(hash[last_ind]!=last_ind){
-            last_ind = hash[last_ind];
-            temp.push_back(arr[last_ind]);
-        }
-        reverse(temp.begin(),temp.end());
-        return temp;
+        return answer;
     }
 };
