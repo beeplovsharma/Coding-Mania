@@ -1,17 +1,21 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int ind,int cur ,int target){
-        if(ind<0) return (target==cur);
-        if(ind<0) return 0;
+    int fun(vector<int>& nums, int ind ,int tar,map<pair<int,int>,int>&dp){
+        if(ind==nums.size()){
+            return tar==0;
+        }
 
-        int add = solve(nums,ind-1,cur+nums[ind],target);
-        int sub = solve(nums,ind-1,cur-nums[ind],target);
+        pair<int,int> key = {ind,tar};
+        if(dp.count(key)) return dp[key];
 
-        return add+sub;
+        int add = fun(nums,ind+1,tar+nums[ind],dp);
+        int sub = fun(nums,ind+1,tar-nums[ind],dp);
+
+        return dp[key] = (add+sub);
     }
     int findTargetSumWays(vector<int>& nums, int target) {
         int n = nums.size();
-        int cur = 0;
-        return solve(nums,n-1,cur,target);
+        map<pair<int,int>,int>dp;
+        return fun(nums,0,target,dp);
     }
 };
