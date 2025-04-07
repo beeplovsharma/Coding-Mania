@@ -1,11 +1,11 @@
 class Solution {
 public:
-    int fun(vector<int>& nums, int ind ,int tar,map<pair<int,int>,int>&dp){
+    int fun(vector<int>& nums, int ind ,int tar,unordered_map<string,int>&dp){
         if(ind==nums.size()){
             return tar==0;
         }
 
-        pair<int,int> key = {ind,tar};
+        string key = to_string(ind)+"_"+to_string(tar);
         if(dp.count(key)) return dp[key];
 
         int add = fun(nums,ind+1,tar+nums[ind],dp);
@@ -15,7 +15,7 @@ public:
     }
     int findTargetSumWays(vector<int>& nums, int target) {
         int n = nums.size();
-        map<pair<int,int>,int>dp;
+        unordered_map<string,int>dp;
         return fun(nums,0,target,dp);
     }
 };
