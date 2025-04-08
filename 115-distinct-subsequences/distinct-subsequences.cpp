@@ -1,26 +1,22 @@
 class Solution {
 public:
-    int numDistinct(string s, string t) {
-        int n = s.size(),m=t.size();
-        vector<double>prev(m+1,0),cur(m+1,0);
-        // vector<vector<double>>dp(n+1,vector<double>(m+1,0));
+    int fun(string &s, string &t,int i,int j,vector<vector<int>>&dp){
+        if(j==t.size()) return 1;
+        if(i==s.size()) return 0;
 
-        prev[0] = 1;
-        cur[0] = 1;
+        if(dp[i][j]!=-1) return dp[i][j];
 
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=m;j++){
-                double one = 0;
-                double two = 0;
-                if(s[i-1]==t[j-1])
-                    one = prev[j-1] + prev[j];
-                else
-                    two = prev[j];
-                
-                cur[j] = one+two;
-            }
-            prev = cur;
+        int notPick = fun(s,t,i+1,j,dp);
+        int pick = 0;
+        if(s[i]==t[j]){
+            pick = fun(s,t,i+1,j+1,dp);
         }
-        return (int)cur[m];
+
+        return dp[i][j] = (pick+notPick);
+    }
+    int numDistinct(string s, string t) {
+        int n = s.size(), m = t.size();
+        vector<vector<int>>dp(n,vector<int>(m,-1));
+        return fun(s,t,0,0,dp);
     }
 };
