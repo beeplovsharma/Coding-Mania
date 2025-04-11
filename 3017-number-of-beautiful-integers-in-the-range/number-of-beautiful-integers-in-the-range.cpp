@@ -1,39 +1,48 @@
+typedef long long ll;
+
 class Solution {
 public:
-    int dp[11][2][6][6][2][20][21];
-    int fun(string &s, int ind, bool tight, int odd, int even, bool leadZero, int rem, int &k) {
-        if (ind == s.size()) {
-            return (!leadZero && odd == even && rem == 0);
-        }
-        if ((odd > 5) || (even > 5)) return 0;
+    // index, tight, odd, even, remainder, validNum
+    int dp[10][2][6][6][20][2];
 
-        if(dp[ind][tight][odd][even][leadZero][rem][k]!=-1) return dp[ind][tight][odd][even][leadZero][rem][k];
+    int f(int index, bool tight, int odd, int even, int rem, bool validNum, int &k, string &s) {
+        // base case
+        if (index == s.size()) 
+            return (validNum && odd == even && rem == 0);
 
-        int limit = tight ? s[ind] - '0' : 9;
+        // pruning
+        if (odd > 5 || even > 5) return 0;
+
+        // already calculated
+        if (dp[index][tight][odd][even][rem][validNum] != -1)
+            return dp[index][tight][odd][even][rem][validNum];
+
+        int limit = tight ? s[index] - '0' : 9;
         int ans = 0;
 
         for (int d = 0; d <= limit; d++) {
-            bool newTight = tight && (d == s[ind] - '0');
-            bool newLeadZero = leadZero && (d == 0);
-            int newOdd = odd + (d % 2 != 0 ? 1 : 0);
-            int newEven = even + (d % 2 == 0 ? 1 : 0);
-            if (newLeadZero) newOdd = newEven = 0;
-            int remainder = (rem * 10 + d) % k;
-
-            ans += fun(s, ind + 1, newTight, newOdd, newEven, newLeadZero, remainder, k);
+            int newTight = tight && (d == limit);
+            if (validNum == false && d == 0) {
+                ans += f(index + 1, newTight, odd, even, rem, false, k, s);
+            } else if (d % 2 == 0) {
+                ans += f(index + 1, newTight, odd, even + 1, (rem * 10 + d) % k, true, k, s);
+            } else {
+                ans += f(index + 1, newTight, odd + 1, even, (rem * 10 + d) % k, true, k, s);
+            }
         }
 
-        return dp[ind][tight][odd][even][leadZero][rem][k] = ans;
+        return dp[index][tight][odd][even][rem][validNum] = ans;
     }
+
     int numberOfBeautifulIntegers(int low, int high, int k) {
-        string s1 = to_string(high);
-        memset(dp,-1,sizeof(dp));
-        int c1 = fun(s1, 0, true, 0, 0, true, 0, k);
+        string l = to_string(low - 1);
+        memset(dp, -1, sizeof(dp));
+        int countNum1 = f(0, true, 0, 0, 0, false, k, l);
 
-        string s2 = to_string(low - 1);
-        memset(dp,-1,sizeof(dp));
-        int c2 = fun(s2, 0, true, 0, 0, true, 0, k);
+        string h = to_string(high);
+        memset(dp, -1, sizeof(dp));
+        int countNum2 = f(0, true, 0, 0, 0, false, k, h);
 
-        return c1 - c2;
+        return countNum2 - countNum1;
     }
 };
