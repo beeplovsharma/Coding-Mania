@@ -1,28 +1,21 @@
-#include<bits/stdc++.h>
-const int mod = 1e9 + 7;
 class Solution {
-#define ll long long
-
 public:
-long long power(long long x, long long y) {
-    long long res = 1;
-    while (y != 0) {
-        if (y & 1){
-            res = (res * x) % mod;
-            y--;
-        }
-        else{
-            y = y >> 1;
-            x = (x * x) % mod;
-        }
+    const int mod = 1e9+7;
+    typedef long long ll;
+    ll power(ll x, ll n){
+        if(n == 0) return 1;
+        ll ans = power(x, n / 2);
+        ans = (ans * ans) % mod;
+        if(n % 2 == 1) ans = (ans * x) % mod;
+        return ans;
     }
-    return res;
-}
+
+
     int countGoodNumbers(long long n) {
-        long long even_positions = (n + 1) / 2;
-        long long odd_positions = n / 2;
-        long long even_choices = power(5, even_positions);
-        long long odd_choices = power(4, odd_positions);
-        return (even_choices * odd_choices) % mod;
+        ll a = power(5,n/2);
+        ll b = power(4,n/2);
+        ll c = 5;
+
+        return (a*b*(n&1?c:1))%mod;
     }
 };
