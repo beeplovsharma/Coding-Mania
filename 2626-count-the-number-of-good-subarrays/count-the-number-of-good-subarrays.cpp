@@ -6,38 +6,20 @@ public:
         int n = nums.size();
         int p = 0;
         ll ans = 0;
-        unordered_map<int, pair<int, int>> mp; //[num, {cnt, pairs}]
+        unordered_map<int, int> freq;
 
         while (j < n) {
-            mp[nums[j]].first++;  // increase frequency
+           p+=freq[nums[j]];
+           freq[nums[j]]++;
 
-            // update pair count for nums[j]
-            int cur_cnt = mp[nums[j]].first;
-            int new_pairs = cur_cnt * (cur_cnt - 1) / 2;
-            p = p - mp[nums[j]].second + new_pairs;
-            mp[nums[j]].second = new_pairs;
+           while(p>=k){
+            ans += n-j;
 
-            // shrink window while valid
-            while (p >= k) {
-                ans += (n - j);
-
-                // update pair count for nums[i] before removing
-                int cur_cnt_i = mp[nums[i]].first;
-                int old_pairs_i = mp[nums[i]].second;
-
-                mp[nums[i]].first--;  // decrease frequency
-                int new_cnt_i = mp[nums[i]].first;
-                int new_pairs_i = new_cnt_i * (new_cnt_i - 1) / 2;
-
-                p = p - old_pairs_i + new_pairs_i;
-                if (new_cnt_i > 0)
-                    mp[nums[i]].second = new_pairs_i;
-                else
-                    mp.erase(nums[i]);
-
-                i++;
-            }
-
+            p -= (freq[nums[i]]-1);
+            freq[nums[i]]--;
+            if(freq[nums[i]]==0) freq.erase(nums[i]);
+            i++;
+           }
             j++;
         }
 
