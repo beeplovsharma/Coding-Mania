@@ -7,8 +7,8 @@ public:
         unordered_map<int,int>mp;//rem
         mp[0]++;
         for(int i=0;i<n;i++){
-            sum = ((sum + nums[i] % k) + k)%k;
-            int rem = sum%k;
+            sum += nums[i];
+            int rem = (sum%k + k)%k;
             if(mp.count(rem)) cnt+=mp[rem];
             mp[rem]++;
         }
