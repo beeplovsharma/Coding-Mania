@@ -2,10 +2,17 @@ class Solution {
 public:
     vector<int> buildArray(vector<int>& nums) {
         int n = nums.size();
-        vector<int>ans(n);
         for(int i=0;i<n;i++){
-            ans[i] = nums[nums[i]];
+            if(nums[i]<i){
+                nums[i] = nums[i] + (nums[nums[i]]%n)*n;
+            }else{
+                nums[i] = nums[i] + (nums[nums[i]]*n);
+            }
+
+            cout<<nums[i]<<" ";
         }
-        return ans;
+
+        for(int i=0;i<n;i++) nums[i] = nums[i]/n;
+        return nums;
     }
 };
