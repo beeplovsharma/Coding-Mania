@@ -10,9 +10,11 @@ public:
         int one = mp[1];
         int two = mp[2];
 
-        for(int i=0;i<zero;i++) nums[i]=0;
-        for(int i=zero;i<zero+one;i++) nums[i]=1;
-        for(int i=zero+one;i<zero+one+two;i++) nums[i]=2;
+        for(int i=0;i<nums.size();i++){
+            if(i<zero) nums[i]=0;
+            else if(zero<=i && i<zero+one) nums[i]=1;
+            else nums[i]=2;
+        }
 
     }
 };
