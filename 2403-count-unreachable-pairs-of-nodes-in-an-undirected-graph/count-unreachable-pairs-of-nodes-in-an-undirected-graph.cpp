@@ -46,23 +46,12 @@ vector<int> parent;
 
         vector<int>countOfNodes;
         vector<int>prefix;
-
-        for(auto &x:mp){
-            countOfNodes.push_back(x.second.size());
-        }
-
-        int sum = 0;
-        for(int i=0;i<countOfNodes.size();i++){
-            sum+=countOfNodes[i];
-            prefix.push_back(sum);
-        }
-
         long long ans = 0;
-
-        for(int i=prefix.size()-1;i>=1;i--){
-            ans+=countOfNodes[i]*1LL*prefix[i-1];
+        int remaining = n;
+        for(auto &x:mp){
+            ans += x.second.size() * 1LL * (remaining - x.second.size());
+            remaining -= x.second.size();
         }
-
         return ans;
 
     }
