@@ -3,10 +3,10 @@ public:
     int maximumDifference(vector<int>& nums) {
         int maxi = -1;
         int n = nums.size();
+        int premin = 1e9;
         for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-             if(nums[j]>nums[i]) maxi = max(maxi,nums[j]-nums[i]);
-            }
+            if(nums[i]<=premin) premin = nums[i];
+            else maxi = max(maxi,nums[i]-premin);
         }
 
         return maxi;
