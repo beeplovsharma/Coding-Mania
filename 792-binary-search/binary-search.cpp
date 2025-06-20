@@ -1,31 +1,19 @@
 class Solution {
 public:
-    int solve(vector<int>& nums,int low ,int high, int target){
-        if(low>high) return -1;
-        int mid = (low+high)/2;
-        if(nums[mid]==target) return mid;
-
-        if(target<nums[mid]){
-            return solve(nums,low,mid-1,target);
-        }
-        else{
-            return solve(nums,mid+1,high,target);
-        }
-    }
     int search(vector<int>& nums, int target) {
-        // int low = 0;
-        // int high = nums.size()-1;
+        int n = nums.size();
+        int lo = 0, hi = n-1;
 
-        // while(low<=high){
-        //     int mid = (low+high)/2;
-        //     if(nums[mid]==target) return mid;
+        while(hi-lo>1){
+            int mid = lo + (hi-lo)/2;
 
-        //     else if(target < nums[mid]) high = mid-1;
-        //     else low = mid+1;
-        // }
+            if(nums[mid]<=target) lo=mid;
+            else hi=mid-1;
+        }
 
-        // return -1;
+        if(nums[lo]==target) return lo;
+        if(nums[hi]==target) return hi;
 
-        return solve(nums,0,nums.size()-1,target);
+        return -1;
     }
 };
