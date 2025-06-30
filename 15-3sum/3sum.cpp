@@ -1,36 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& arr) {
-vector<vector<int>> ans;
-int n = arr.size();
-    sort(arr.begin(), arr.end());
-    for (int i = 0; i < n; i++) {
-        //remove duplicates:
-        if (i != 0 && arr[i] == arr[i - 1]) continue;
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(),nums.end());
+        set<vector<int>>st;
+        int tar = 0;
+        for(int i=0;i<n;i++){
+            int newTar = tar - nums[i];
 
-        //moving 2 pointers:
-        int j = i + 1;
-        int k = n - 1;
-        while (j < k) {
-            int sum = arr[i] + arr[j] + arr[k];
-            if (sum < 0) {
-                j++;
-            }
-            else if (sum > 0) {
-                k--;
-            }
-            else {
-                vector<int> temp = {arr[i], arr[j], arr[k]};
-                ans.push_back(temp);
-                j++;
-                k--;
-                //skip the duplicates:
-                while (j < k && arr[j] == arr[j - 1]) j++;
-                while (j < k && arr[k] == arr[k + 1]) k--;
-            }
+            int l = i+1;
+            int r = n-1;
+
+            while(l<r){
+                if(nums[l]+nums[r]==newTar){
+                    st.insert({nums[i],nums[l],nums[r]});
+                    l++;
+                    r--;
+                }else if(nums[l]+nums[r]<newTar){
+                    l++;
+                }else{
+                    r--;
+                }
+            } 
         }
-    }
-    return ans;
+        vector<vector<int>>ans(st.begin(),st.end());
+        return ans;
     }
 };
-
