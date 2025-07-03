@@ -1,12 +1,5 @@
 class Solution {
 public:
-    bool checkDup(vector<int>&hash){
-        bool flag = false;
-        for(int i=0;i<256;i++){
-            if(hash[i]>1) return true;
-        }
-        return false;
-    }
     int lengthOfLongestSubstring(string s) {
         vector<int>hash(256,0);
         int n = s.size();
@@ -15,7 +8,7 @@ public:
         while(j<n){
             hash[s[j]]++;
 
-            while(i<n && checkDup(hash)){
+            while(i<n && hash[s[j]]>1){
                 hash[s[i]]--;
                 i++;
             }
