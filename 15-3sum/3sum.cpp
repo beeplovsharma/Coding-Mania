@@ -1,26 +1,26 @@
 class Solution {
 public:
+    // Pepcoding
     vector<vector<int>> threeSum(vector<int>& nums) {
-       sort(nums.begin(),nums.end());
+        sort(nums.begin(),nums.end());
+        set<vector<int>>st;
         int n = nums.size();
-       set<vector<int>>st;
-       for(int i=0;i<n;i++){
-        int l = i+1;
-        int r = n-1;
 
-        while(l<r){
-            if(nums[i]+nums[l]+nums[r]==0){
-                st.insert({nums[i],nums[l],nums[r]});
-                l++;
-                r--;
-            }else if(nums[i]+nums[l]+nums[r]<0){
-                l++;
-            }else{
-                r--;
+        for(int i=0;i<n;i++){
+            int j=i+1,k=n-1;
+            while(j<k){
+                if(nums[i]+nums[j]+nums[k]==0){
+                    st.insert({nums[i],nums[j],nums[k]});
+                    j++;
+                    k--;
+                }else if(nums[i]+nums[j]+nums[k]<0){
+                    j++;
+                }else{
+                    k--;
+                }
             }
         }
-       }
 
-       return vector<vector<int>>(st.begin(),st.end());
+        return vector<vector<int>>(begin(st),end(st));
     }
 };
