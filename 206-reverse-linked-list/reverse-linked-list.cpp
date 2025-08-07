@@ -10,38 +10,18 @@
  */
 class Solution {
 public:
-    int getSize(ListNode* head){
-        int n=0;
-        ListNode *temp=head;
-        while(temp!=NULL){
-            temp=temp->next;
-            n++;
-        }
-        return n;
-    }
-    ListNode* getAt(ListNode* head,int ind){
-        if(head==NULL) return NULL;
-        ListNode *temp=head;
-        for(int i=0;i<ind;i++){
-            temp = temp->next;
-        }
-        return temp;
-    }
     ListNode* reverseList(ListNode* head) {
-        if(head==NULL) return NULL;
-        int n = getSize(head);
-        int i=0,j=n-1;
-        while(i<j){
-            ListNode* di = getAt(head,i);
-            ListNode* dj = getAt(head,j);
+        ListNode* prev = NULL;
+        ListNode* curr = head;
 
-            int temp = di->val;
-            di->val= dj->val;
-            dj->val = temp;
+        while(curr!=NULL){
+            ListNode* next = curr->next;
 
-            i++;
-            j--;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
         }
-        return head;
+
+        return prev;
     }
 };
