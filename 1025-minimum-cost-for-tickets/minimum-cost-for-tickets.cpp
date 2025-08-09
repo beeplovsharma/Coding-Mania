@@ -1,25 +1,32 @@
 class Solution {
 public:
-    int getNextStartDay(vector<int>& days,int start,int target){
-        for(int day=start;day<days.size();day++){
-            if(days[day]>target) return day;
-        }
-        return days.size();
+    int N;
+    int dp[366];
+    int check(int ind, int day, vector<int>& days){
+        int tar = days[ind]+day;
+        auto it = lower_bound(days.begin(),days.end(),tar);
+        return it-days.begin();
     }
-    int fun(vector<int>& days, vector<int>& costs,int ind,vector<int>&dp){
-        if(ind>=days.size()) return 0;
 
+    int fun(int ind,vector<int>& days, vector<int>& costs){
+        if(ind>=N) return 0;
         if(dp[ind]!=-1) return dp[ind];
 
-        int passOne = costs[0] + fun(days,costs,getNextStartDay(days,ind+1,days[ind]+1-1),dp);
-        int passTwo = costs[1] + fun(days,costs,getNextStartDay(days,ind+1,days[ind]+7-1),dp);
-        int passThree = costs[2] + fun(days,costs,getNextStartDay(days,ind+1,days[ind]+30-1),dp);
+        int ans = 1e9;
+        int indexForOneDay = check(ind,1,days);
+        ans = min(ans,costs[0]+fun(indexForOneDay,days,costs));
 
-        return dp[ind] = min({passOne,passTwo,passThree});
+        int indexForSevenDay = check(ind,7,days);
+        ans = min(ans,costs[1]+fun(indexForSevenDay,days,costs));
+
+        int indexForThirtyDay = check(ind,30,days);
+        ans = min(ans,costs[2]+fun(indexForThirtyDay,days,costs));
+
+        return dp[ind] = ans;
     }
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        int n = days.size();
-        vector<int>dp(n+1,-1);
-        return fun(days,costs,0,dp);
+        N = days.size();
+        memset(dp,-1,sizeof(dp));
+        return fun(0,days,costs);
     }
 };
