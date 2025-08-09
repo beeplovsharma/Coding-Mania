@@ -1,19 +1,21 @@
 class Solution {
 public:
     typedef long long ll;
-    long long fun(vector<vector<int>>& questions,int ind,vector<ll>&dp){
-        if(ind>=questions.size()) return 0;
+    int N;
+    ll dp[100001];
+    ll fun(vector<vector<int>>& nums,int ind){
+        if(ind>=N) return 0;
 
         if(dp[ind]!=-1) return dp[ind];
 
-        ll solve = questions[ind][0] + fun(questions,ind+questions[ind][1]+1,dp);
-        ll skip = fun(questions,ind+1,dp);
+        ll skip = fun(nums,ind+1);
+        ll solve = (ll)nums[ind][0] + fun(nums,ind+nums[ind][1]+1);
 
-        return dp[ind] = max(solve,skip);
+        return dp[ind] = max(skip,solve);
     }
-    long long mostPoints(vector<vector<int>>& questions) {
-        int n = questions.size();
-        vector<ll>dp(n,-1);
-        return fun(questions,0,dp);
+    long long mostPoints(vector<vector<int>>& ques) {
+        N = ques.size();
+        memset(dp,-1,sizeof(dp));
+        return fun(ques,0);
     }
 };
