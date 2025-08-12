@@ -1,20 +1,24 @@
 class Solution {
 public:
-    int coinChange(vector<int>& coins, int amount) {
-        int n = coins.size();
-        vector<vector<int>>dp(n,vector<int>(amount+1,0));
-
-        for(int ind=n-1;ind>=0;ind--){
-            for(int tar=1;tar<=amount;tar++){
-                int pick = 1e9,notPick=1e9;
-                if(tar-coins[ind]>=0) pick = 1 + dp[ind][tar-coins[ind]];
-                if(ind+1<n) notPick = dp[ind+1][tar];
-
-                dp[ind][tar] = min(pick,notPick);
-            }
+    int dp[13][10001];
+    int fun(vector<int>& coins,int ind, int tamt){
+        if(ind==coins.size()){
+            if(tamt==0) return 0;
+            return INT_MAX/2;
         }
+        if(dp[ind][tamt]!=-1) return dp[ind][tamt];
+        //skip
+        int skip = fun(coins,ind+1,tamt);
+        //choose
+        int choose = INT_MAX/2;
+        if(tamt-coins[ind]>=0) 
+            choose = 1 + fun(coins,ind,tamt-coins[ind]);
 
-        int ans = dp[0][amount];
-        return ans==1e9 ? -1 : ans;
+        return dp[ind][tamt] = min(skip,choose);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        memset(dp,-1,sizeof(dp));
+        int ans =fun(coins,0,amount);
+        return ans >= INT_MAX / 2 ? -1 : ans;
     }
 };
