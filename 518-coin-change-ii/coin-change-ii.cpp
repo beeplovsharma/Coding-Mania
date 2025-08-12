@@ -1,18 +1,21 @@
 class Solution {
 public:
-    int fun(vector<int>& nums, int ind, int amount,vector<vector<int>>&dp){
-        if(amount==0) return 1;
-        if(ind==nums.size() || amount<0) return 0;
-        if(dp[ind][amount]!=-1) return dp[ind][amount];
+    int dp[301][5001];
+    int fun(vector<int>& coins,int ind,int amt){
+        if(ind==coins.size()){
+            return amt==0;
+        }
 
-        int pick = fun(nums,ind,amount-nums[ind],dp);
-        int notPick = fun(nums,ind+1,amount,dp);
+        if(dp[ind][amt]!=-1) return dp[ind][amt];
 
-        return dp[ind][amount] = (pick+notPick);
+        int skip = fun(coins,ind+1,amt);
+        int choose = 0;
+        if(amt-coins[ind]>=0) choose = fun(coins,ind,amt-coins[ind]);
+
+        return dp[ind][amt] = (skip + choose);
     }
-    int change(int amount, vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
-        return fun(nums,0,amount,dp);
+    int change(int amount, vector<int>& coins) {
+        memset(dp,-1,sizeof(dp));
+        return fun(coins,0,amount);
     }
 };
