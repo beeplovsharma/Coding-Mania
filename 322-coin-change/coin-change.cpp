@@ -4,13 +4,13 @@ public:
     int fun(vector<int>& coins,int ind, int tamt){
         if(ind==coins.size()){
             if(tamt==0) return 0;
-            return INT_MAX/2;
+            return 1e9;
         }
         if(dp[ind][tamt]!=-1) return dp[ind][tamt];
         //skip
         int skip = fun(coins,ind+1,tamt);
         //choose
-        int choose = INT_MAX/2;
+        int choose = 1e9;
         if(tamt-coins[ind]>=0) 
             choose = 1 + fun(coins,ind,tamt-coins[ind]);
 
@@ -19,6 +19,6 @@ public:
     int coinChange(vector<int>& coins, int amount) {
         memset(dp,-1,sizeof(dp));
         int ans =fun(coins,0,amount);
-        return ans >= INT_MAX / 2 ? -1 : ans;
+        return ans >= 1e9 ? -1 : ans;
     }
 };
