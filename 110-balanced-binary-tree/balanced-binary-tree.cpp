@@ -10,17 +10,31 @@
  * };
  */
 class Solution {
+    class BSTPair{
+        public:
+            int height;
+            bool isBBT;
+    };
 public:
-    int check(TreeNode *root){
-        if(root == NULL) return 0;
-        int left = check(root->left);
-        if(left==-1) return -1;
-        int right = check(root->right);
-        if(right==-1) return -1;
-        if(abs(left-right)>1) return -1;
-        return 1+max(left,right);
+    BSTPair fun(TreeNode* root){
+        if(root==NULL){
+            BSTPair bp;
+            bp.height=0;
+            bp.isBBT=true;
+            return bp;
+        }
+
+        BSTPair lt = fun(root->left);
+        BSTPair rt = fun(root->right);
+
+        BSTPair cur;
+        cur.isBBT = lt.isBBT && rt.isBBT && (abs(lt.height-rt.height)<=1);
+        cur.height = 1+max(lt.height,rt.height);
+
+        return cur;
     }
     bool isBalanced(TreeNode* root) {
-        return (check(root)!=-1);
+        BSTPair ans = fun(root);
+        return ans.isBBT;
     }
 };
