@@ -18,7 +18,7 @@ public:
         if(s[i]==p[j] || p[j]=='?'){
             if(fun(s,p,i-1,j-1)) return dp[i][j] = true;
         }else if(p[j]=='*'){
-            if(fun(s,p,i,j-1) || fun(s,p,i-1,j)) return dp[i][j] = true;
+            if(fun(s,p,i,j-1) || fun(s,p,i-1,j) || fun(s,p,i-1,j-1)) return dp[i][j] = true;
         }
 
         return dp[i][j] = false;
