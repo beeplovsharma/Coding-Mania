@@ -11,52 +11,37 @@
  */
 class Solution {
 public:
-    TreeNode* deleteNode(TreeNode* root, int key) {
+    int calcMax(TreeNode* root){
+        if(root->right!=NULL) return calcMax(root->right);
+        else{
+            return root->val;
+        }
+    }
+    TreeNode* fun(TreeNode* root, int key){
         if(root==NULL) return NULL;
 
-        if(root->val == key){
-            return helper(root);
-        }
-
-        TreeNode* dummy = root;
-        while(root!=NULL){
-            if(root->val > key){
-                if(root->left!=NULL && root->left->val == key){
-                    root->left = helper(root->left);
-                    break;
-                }
-                else{
-                    root = root->left;
-                }
-            }
-
-            else{
-                if(root->right!=NULL && root->right->val == key){
-                    root->right = helper(root->right);
-                    break;
-                }
-                else{
-                    root = root->right;
-                }
+        if(key < root->val){
+            root->left = fun(root->left,key);
+        }else if(key > root->val){
+            root->right = fun(root->right,key);
+        }else{
+            if(root->left!=NULL && root->right!=NULL){
+                int lmax = calcMax(root->left);
+                root->val = lmax;
+                root->left = fun(root->left,lmax);
+                return root;
+            }else if(root->left!=NULL){
+                return root->left;
+            }else if(root->right!=NULL){
+                return root->right;
+            }else{
+                return NULL;
             }
         }
 
-        return dummy;
+        return root;
     }
-
-    TreeNode* helper(TreeNode *root){
-        if(root->left==NULL) return root->right;
-        else if(root->right==NULL) return root->left;
-
-        TreeNode* rightChild = root->right;
-        TreeNode* lastRight = findRightChild(root->left);
-        lastRight->right = rightChild;
-        return root->left;
-    }
-
-    TreeNode* findRightChild(TreeNode* root){
-        if(root->right == NULL) return root;
-
-        return findRightChild(root->right);
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        return fun(root,key);
     }
 };
