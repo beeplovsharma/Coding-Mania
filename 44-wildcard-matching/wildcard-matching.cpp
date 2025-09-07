@@ -1,32 +1,31 @@
 class Solution {
 public:
-    int dp[2001][2001];
-    bool fun(string &s, string &p,int i,int j){
-        if(i<0 && j<0) return true;
-        if(i<0 && j>=0){
-            for(int k=j;k>=0;k--){
-                if(p[k]!='*') return false;
+    bool fun(string &s, string &p,int i,int j,vector<vector<int>>&dp){
+        if(i==0 && j==0) return true;
+        if(i==0 && j>=1){
+            for(int k=j;k>=1;k--){
+                if(p[k-1]!='*') return false;
             }
             return true;
         }
-        if(i>=0 && j<0){
+        if(i>=1 && j==0){
             return false;
         }
 
         if(dp[i][j]!=-1) return dp[i][j];
 
-        if(s[i]==p[j] || p[j]=='?'){
-            if(fun(s,p,i-1,j-1)) return dp[i][j] = true;
-        }else if(p[j]=='*'){
-            if(fun(s,p,i,j-1) || fun(s,p,i-1,j) || fun(s,p,i-1,j-1)) return dp[i][j] = true;
+        if(s[i-1]==p[j-1] || p[j-1]=='?'){
+            if(fun(s,p,i-1,j-1,dp)) return dp[i][j] = true;
+        }else if(p[j-1]=='*'){
+            if(fun(s,p,i,j-1,dp) || fun(s,p,i-1,j,dp) || fun(s,p,i-1,j-1,dp)) return dp[i][j] = true;
         }
 
         return dp[i][j] = false;
     }
     bool isMatch(string s, string p) {
-        memset(dp,-1,sizeof(dp));
         int n = s.size();
         int m = p.size();
-        return fun(s,p,n-1,m-1);
+        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+        return fun(s,p,n,m,dp);
     }
 };
