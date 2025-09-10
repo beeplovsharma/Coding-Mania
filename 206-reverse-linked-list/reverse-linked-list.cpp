@@ -10,18 +10,35 @@
  */
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
-        ListNode* prev = NULL;
-        ListNode* curr = head;
+    ListNode* tleft;
+    int size;
+    void fun(ListNode* tright, int floor){
+        if(tright==NULL) return;
 
-        while(curr!=NULL){
-            ListNode* next = curr->next;
+        fun(tright->next,floor+1);
 
-            curr->next = prev;
-            prev = curr;
-            curr = next;
+        if(floor>=size/2){
+            int temp = tright->val;
+            tright->val = tleft->val;
+            tleft->val = temp;
+
+            tleft=tleft->next;
         }
+    }
 
-        return prev;
+    int getSize(ListNode* head){
+        ListNode* temp=head;
+        int size = 0;
+        while(temp!=NULL){
+            temp=temp->next;
+            size++;
+        }
+        return size;
+    }
+    ListNode* reverseList(ListNode* head) {
+        size = getSize(head);
+        tleft=head;
+        fun(head,0);
+        return head;
     }
 };
