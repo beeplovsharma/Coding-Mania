@@ -12,7 +12,7 @@
 class Solution {
 public:
     int height(TreeNode* root){
-        if(root==NULL) return 0;
+        if(root==NULL) return -1;
 
         int lh = height(root->left);
         int rh = height(root->right);
@@ -24,7 +24,7 @@ public:
         
         int ld = diameterOfBinaryTree(root->left);
         int rd = diameterOfBinaryTree(root->right);
-        int lrh = height(root->left)+height(root->right);
+        int lrh = height(root->left)+height(root->right)+2;
 
         return max({ld,rd,lrh});
     }
