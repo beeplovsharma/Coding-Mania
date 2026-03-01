@@ -1,35 +1,27 @@
 class Solution {
 public:
-    #define ll long long
-    bool feasible(vector<int>& piles,int H,int threshold){
-        int sum=0;
-        int n = piles.size();
-        ll hr = 0;
-        for(int i=0;i<n;i++){
-            if(piles[i]>=threshold){
-                hr+=ceil(piles[i]/(double)threshold);
-            }
-            else{
-                hr+=1;
-            }
-
-            if(hr>H) return false;
+    bool feasible(vector<int>& piles,int speed, int h){
+        int hours = 0;
+        for(int i=0;i<piles.size();i++){
+            int req = ceil(piles[i]/(1.0 * speed));
+            hours += req;
         }
-        return true;
+        return hours<=h;
     }
+
     int minEatingSpeed(vector<int>& piles, int h) {
         int lo = 1;
-        int hi = 1e9;
+        int hi = *max_element(piles.begin(),piles.end());
 
         while(hi-lo>1){
-            int mid = lo+(hi-lo)/2;
+            int mid = lo + (hi-lo)/2;
 
-            if(feasible(piles,h,mid)) hi=mid;
-            else lo=mid;
+            if(feasible(piles,mid,h)) hi = mid;
+            else lo = mid+1;
         }
 
-        if(feasible(piles,h,lo)) return lo;
-        if(feasible(piles,h,hi)) return hi;
+        if(feasible(piles,lo,h)) return lo;
+        if(feasible(piles,hi,h)) return hi;
 
         return -1;
     }
