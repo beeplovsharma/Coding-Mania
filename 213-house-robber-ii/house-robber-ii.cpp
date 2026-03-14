@@ -1,24 +1,33 @@
 class Solution {
 public:
-    int fun(vector<int>& nums,int ind,int n,vector<int>&dp){
-        if(ind>=n) return 0;
+    int fun(vector<int>& nums, int n, vector<int>& dp){
+        if(n == 0) return nums[0];
+        if(n == 1) return max(nums[0], nums[1]);
 
-        if(dp[ind]!=-1) return dp[ind];
+        if(dp[n] != -1) return dp[n];
 
-        int steal = nums[ind] + fun(nums,ind+2,n,dp);
-        int notSteal = 0 + fun(nums,ind+1,n,dp);
+        int steal = nums[n] + fun(nums, n-2, dp);
+        int skip = fun(nums, n-1, dp);
 
-        return dp[ind] = max(steal,notSteal);
+        return dp[n] = max(steal, skip);
     }
+
     int rob(vector<int>& nums) {
         int n = nums.size();
-        if(n==0) return 0;
-        if(n==1) return nums[0];
-        vector<int>dp(n+1,-1);
-        int firstAtt = fun(nums,0,n-1,dp);
-        fill(dp.begin(), dp.end(), -1);
-        int secondAtt = fun(nums,1,n,dp);
+        if(n == 1) return nums[0];
 
-        return max(firstAtt,secondAtt);
+        vector<int> nums1 = nums;
+        nums1.erase(nums1.begin());
+
+        vector<int> nums2 = nums;
+        nums2.pop_back();
+
+        vector<int> dp1(n-1, -1);
+        vector<int> dp2(n-1, -1);
+
+        int ans1 = fun(nums1, n-2, dp1);
+        int ans2 = fun(nums2, n-2, dp2);
+
+        return max(ans1, ans2);
     }
 };
