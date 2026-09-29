@@ -18,7 +18,6 @@ public:
         bool down = fun(grid,i+1,j,balance); // down
 
         return dp[i][j][balance] = right || down;
-
     }
     bool hasValidPath(vector<vector<char>>& grid) {
         n = grid.size();
@@ -33,8 +32,8 @@ public:
             return false;
 
         // Path length must be even
-        if ((n + m - 1) % 2 != 0)
-            return false;
+        // if ((n + m - 1) % 2 != 0)
+        //     return false;
 
         return fun(grid, 0, 0, 0);
     }
